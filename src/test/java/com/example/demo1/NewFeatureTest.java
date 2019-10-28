@@ -585,4 +585,35 @@ public class NewFeatureTest {
 
     }
 
+    /**
+     * 1、构造器方法引用
+     * 格式：Class::new，调用默认构造器。
+     *
+     * 2、类静态方法引用
+     * 格式：Class::static_method
+     *
+     * 3、类普通方法引用
+     * 格式：Class::method，方法不能带参数。
+     *
+     * 4、实例方法引用
+     * 格式：instance::method
+     */
+    @Test
+    public void invokeFunTest(){
+        // 1. 构造器方法引用
+        Employee employee = instance(Employee::new);
+
+        // 2. 类静态方法引用
+        productList.stream()
+                .map(Product::getColor)
+                .forEach(System.out::println) ;
+
+
+    }
+
+
+    public <T> T instance(Supplier<T> supplier){
+        return supplier.get();
+    }
+
 }

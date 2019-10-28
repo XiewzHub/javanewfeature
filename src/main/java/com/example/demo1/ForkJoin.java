@@ -3,6 +3,12 @@ package com.example.demo1;
 import java.util.concurrent.RecursiveTask;
 
 /**
+ * Fork/Join 框架：就是在必要的情况下，将一个大任务，进行拆分(fork)成若干个小任务（拆到不可再拆时），再将一个个的小任务运算的结果进行 join 汇总。
+ *
+ * 某个子问题由于等待另外一个子问题的完成而无法继续运行.那么处理该子
+ * 问题的线程会主动寻找其他尚未运行的子问题来执行.这种方式减少了线程
+ * 的等待时间,提高了性能.。
+ *
  * 要想使用Fark—Join，类必须继承
  * RecursiveAction（无返回值）
  * Or

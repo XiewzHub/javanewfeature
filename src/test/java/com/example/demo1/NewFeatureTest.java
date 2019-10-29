@@ -40,7 +40,7 @@ public class NewFeatureTest {
     List<Employee> emps = new ArrayList<>();
 
     @Before
-    public void init(){
+    public void init() {
         Product product = new Product();
         product.setColor(Product.RED);
         product.setPrice(23.55);
@@ -74,6 +74,12 @@ public class NewFeatureTest {
         employee.setAge(36);
         employee.setStatus(Employee.Status.BUSY);
         emps.add(employee);
+
+        employee = new Employee();
+        employee.setSalary(100.13);
+        employee.setAge(36);
+        employee.setStatus(Employee.Status.BUSY);
+        emps.add(employee);
     }
 
     @Test
@@ -84,12 +90,11 @@ public class NewFeatureTest {
                 .filter(product -> Product.RED.equals(product.getColor()))
 //                .limit(1)
 
-        .forEach(product -> {
-            System.out.println(product.toString());
-            String color = product.getColor();
-            System.out.println(color);
-        });
-
+                .forEach(product -> {
+                    System.out.println(product.toString());
+                    String color = product.getColor();
+                    System.out.println(color);
+                });
 
 
     }
@@ -136,11 +141,6 @@ public class NewFeatureTest {
         Supplier<Employee> sup2 = Employee::new;
         System.out.println(sup2.get());
 
-        Supplier <String > sup3 =
-            Employee::getStr
-        ;
-
-
 
         // 构造方法引用 类名::new （带一个参数）
         Function<Integer, Employee> fun = (x) -> new Employee(x);
@@ -164,7 +164,7 @@ public class NewFeatureTest {
     }
 
     @Test
-    public void getStreamTest(){
+    public void getStreamTest() {
         // 1，校验通过Collection 系列集合提供的stream()或者paralleStream()
         List<String> list = new ArrayList<>();
         Stream<String> stream1 = list.stream();
@@ -174,11 +174,11 @@ public class NewFeatureTest {
         Stream<String> stream2 = Arrays.stream(str);
 
         // 3.通过Stream类中的静态方法of
-        Stream<String> stream3 = Stream.of("aa","bb","cc");
+        Stream<String> stream3 = Stream.of("aa", "bb", "cc");
 
         // 4.创建无限流
         // 迭代
-        Stream<Integer> stream4 = Stream.iterate(0,(x) -> x+2);
+        Stream<Integer> stream4 = Stream.iterate(0, (x) -> x + 2);
 
         //生成
         Stream<Double> generate = Stream.generate(() -> Math.random());
@@ -186,7 +186,7 @@ public class NewFeatureTest {
     }
 
     @Test
-    public void oprationStreamTest(){
+    public void oprationStreamTest() {
         /**
          * 筛选 过滤  去重
          */
@@ -211,10 +211,10 @@ public class NewFeatureTest {
          *  自然排序  定制排序
          */
         productList.stream()
-                .sorted((e1 ,e2) -> {
-                    if (e1.getPrice().equals(e2.getPrice())){
+                .sorted((e1, e2) -> {
+                    if (e1.getPrice().equals(e2.getPrice())) {
                         return e1.getColor().compareTo(e2.getColor());
-                    } else{
+                    } else {
                         return e1.getPrice().compareTo(e2.getPrice());
                     }
                 })
@@ -222,7 +222,7 @@ public class NewFeatureTest {
     }
 
     @Test
-    public void endStreamTest(){
+    public void endStreamTest() {
         /**
          *      查找和匹配
          *          allMatch-检查是否匹配所有元素
@@ -272,16 +272,15 @@ public class NewFeatureTest {
         System.out.println(min.get());
 
 
-
     }
 
     @Test
-    public void reduceTest(){
+    public void reduceTest() {
         //reduce操作： reduce:(T identity,BinaryOperator)/reduce(BinaryOperator)-可以将流中元素反复结合起来，得到一个值
         /**
          *  reduce ：规约操作
          */
-        List<Integer> list = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         Integer count2 = list.stream()
                 .reduce(0, Integer::sum);
         System.out.println(count2);
@@ -312,9 +311,8 @@ public class NewFeatureTest {
      */
 
 
-
     @Test
-    public void test(){
+    public void test() {
         /**
          *      Optional.of(T t); // 创建一个Optional实例
          *      Optional.empty(); // 创建一个空的Optional实例
@@ -328,7 +326,7 @@ public class NewFeatureTest {
          *      总结：Optional.of(null)  会直接报NPE
          */
 
-        Optional<Employee> op = Optional.of(new Employee("zhansan", 11, 12.32, Employee.Status.BUSY));
+        Optional<Employee> op = Optional.of(new Employee(11, Employee.Status.BUSY, "zhansan", 12.32));
         System.out.println(op.get());
 
         // NPE
@@ -338,45 +336,47 @@ public class NewFeatureTest {
 
 
     @Test
-    public void test2(){
+    public void test2() {
         Optional<Object> op = Optional.empty();
         System.out.println(op);
 
         // No value present
         System.out.println(op.get());
     }
+
     @Test
-    public void test3(){
-        Optional<Employee> op = Optional.ofNullable(new Employee("lisi", 33, 131.42, Employee.Status.FREE));
+    public void test3() {
+        Optional<Employee> op = Optional.ofNullable(new Employee(33, Employee.Status.FREE, "lisi", 131.42));
         System.out.println(op.get());
 
         Optional<Object> op2 = Optional.ofNullable(null);
         System.out.println(op2);
         // System.out.println(op2.get());
     }
+
     @Test
-    public void test5(){
-        Optional<Employee> op1 = Optional.ofNullable(new Employee("张三", 11, 11.33, Employee.Status.VOCATION));
+    public void test5() {
+        Optional<Employee> op1 = Optional.ofNullable(new Employee(11, Employee.Status.VOCATION, "张三", 11.33));
         System.out.println(op1.orElse(new Employee()));
         System.out.println(op1.orElse(null));
     }
 
     @Test
-    public void test6(){
-        Optional<Employee> op1 = Optional.of(new Employee("田七", 11, 12.31, Employee.Status.BUSY));
+    public void test6() {
+        Optional<Employee> op1 = Optional.of(new Employee(11, Employee.Status.BUSY, "田七", 12.31));
         op1 = Optional.empty();
         Employee employee = op1.orElseGet(() -> new Employee());
         System.out.println(employee);
     }
 
     @Test
-    public void test7(){
-        Optional<Employee> op1 = Optional.of(new Employee("田七", 11, 12.31, Employee.Status.BUSY));
-        System.out.println(op1.map( (e) -> e.getSalary()).get());
+    public void test7() {
+        Optional<Employee> op1 = Optional.of(new Employee(11, Employee.Status.BUSY, "田七", 12.31));
+        System.out.println(op1.map((e) -> e.getSalary()).get());
     }
 
     @Test
-    public void test8(){
+    public void test8() {
         // 从默认时区的系统时钟获取当前的日期时间。不用考虑时区差
         LocalDateTime date = LocalDateTime.now();
         //2018-07-15T14:22:39.759
@@ -403,7 +403,7 @@ public class NewFeatureTest {
     }
 
     @Test
-    public void test9(){
+    public void test9() {
         // 时间戳  1970年1月1日00：00：00 到某一个时间点的毫秒值
         // 默认获取UTC时区
         Instant ins = Instant.now();
@@ -417,7 +417,7 @@ public class NewFeatureTest {
     }
 
     @Test
-    public void test10(){
+    public void test10() {
         // Duration:计算两个时间之间的间隔
         // Period：计算两个日期之间的间隔
 
@@ -442,7 +442,7 @@ public class NewFeatureTest {
             e.printStackTrace();
         }
         LocalTime localTime2 = LocalTime.now();
-        LocalDate localDateTime2 = LocalDate.of(2019,12,25);
+        LocalDate localDateTime2 = LocalDate.of(2019, 12, 25);
         Duration du2 = Duration.between(localTime, localTime2);
         Period period = Period.between(localDateTime, localDateTime2);
         System.out.println(du2);
@@ -452,7 +452,7 @@ public class NewFeatureTest {
     }
 
     @Test
-    public void test11(){
+    public void test11() {
         // temperalAdjust 时间校验器
         // 例如获取下周日  下一个工作日
         LocalDateTime ldt1 = LocalDateTime.now();
@@ -470,15 +470,13 @@ public class NewFeatureTest {
 
         // 获取下一个工作日
         LocalDateTime ldt5 = ldt1.with((t) -> {
-            LocalDateTime ldt6 = (LocalDateTime)t;
+            LocalDateTime ldt6 = (LocalDateTime) t;
             DayOfWeek dayOfWeek = ldt6.getDayOfWeek();
-            if (DayOfWeek.FRIDAY.equals(dayOfWeek)){
+            if (DayOfWeek.FRIDAY.equals(dayOfWeek)) {
                 return ldt6.plusDays(3);
-            }
-            else if (DayOfWeek.SATURDAY.equals(dayOfWeek)){
+            } else if (DayOfWeek.SATURDAY.equals(dayOfWeek)) {
                 return ldt6.plusDays(2);
-            }
-            else {
+            } else {
                 return ldt6.plusDays(1);
             }
         });
@@ -487,7 +485,7 @@ public class NewFeatureTest {
 
 
     @Test
-    public void test12(){
+    public void test12() {
         // DateTimeFormatter: 格式化时间/日期
         // 自定义格式
         LocalDateTime ldt = LocalDateTime.now();
@@ -507,14 +505,14 @@ public class NewFeatureTest {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime time = LocalDateTime.now();
         String localTime = df.format(time);
-        LocalDateTime ldt4 = LocalDateTime.parse("2017-09-28 17:07:05",df);
-        System.out.println("LocalDateTime转成String类型的时间："+localTime);
-        System.out.println("String类型的时间转成LocalDateTime："+ldt4);
+        LocalDateTime ldt4 = LocalDateTime.parse("2017-09-28 17:07:05", df);
+        System.out.println("LocalDateTime转成String类型的时间：" + localTime);
+        System.out.println("String类型的时间转成LocalDateTime：" + ldt4);
     }
 
     // ZoneTime  ZoneDate       ZoneDateTime
     @Test
-    public void test13(){
+    public void test13() {
         LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Shanghai"));
         System.out.println(now);
 
@@ -529,13 +527,13 @@ public class NewFeatureTest {
             String result = "";
             Integer age = employee.getAge();
             String name = employee.getName();
-            result += "一个名字为："+name+"，年龄是"+age+",的工资是："+employee.getSalary();
+            result += "一个名字为：" + name + "，年龄是" + age + ",的工资是：" + employee.getSalary();
             return result;
         }).forEach(System.out::println);
     }
 
     @Test
-    public void test14(){
+    public void test14() {
         // 获取当前日期,只含年月日 固定格式 yyyy-MM-dd    2018-05-04
         LocalDate today = LocalDate.now();
 
@@ -551,7 +549,7 @@ public class NewFeatureTest {
 
 
     @Test
-    public void test15(){
+    public void test15() {
         // 2019-10-25
         LocalDate today = LocalDate.now();
         // 取本月第1天： 2019-10-01
@@ -578,41 +576,52 @@ public class NewFeatureTest {
         long time4 = System.currentTimeMillis();
 
         //时间戳转化为localdatetime
-        DateTimeFormatter df= DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss.SSS");
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss.SSS");
 
-        System.out.println(df.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(time3),ZoneId.of("Asia/Shanghai"))));
-        System.out.println(df.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(time4),ZoneId.of("Asia/Shanghai"))));
+        System.out.println(df.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(time3), ZoneId.of("Asia/Shanghai"))));
+        System.out.println(df.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(time4), ZoneId.of("Asia/Shanghai"))));
 
     }
 
     /**
      * 1、构造器方法引用
      * 格式：Class::new，调用默认构造器。
-     *
+     * <p>
      * 2、类静态方法引用
      * 格式：Class::static_method
-     *
+     * <p>
      * 3、类普通方法引用
      * 格式：Class::method，方法不能带参数。
-     *
+     * <p>
      * 4、实例方法引用
      * 格式：instance::method
      */
     @Test
-    public void invokeFunTest(){
+    public void invokeFunTest() {
         // 1. 构造器方法引用
         Employee employee = instance(Employee::new);
 
         // 2. 类静态方法引用
-        productList.stream()
-                .map(Product::getColor)
+        productList
+                .stream()
+                // 4. 实例方法引用
+                .map(this::xx)
                 .forEach(System.out::println) ;
 
-
+        // 3、类普通方法引用
+        emps
+                .forEach(Employee::getStr)
+        ;
     }
 
+    public Employee xx(Product product) {
+        String s = product.getColor() + product.getPrice() + product.getClass();
+        Employee employee1 = emps.get(0);
+        employee1.setName(product.toString());
+        return employee1;
+    }
 
-    public <T> T instance(Supplier<T> supplier){
+    public <T> T instance(Supplier<T> supplier) {
         return supplier.get();
     }
 

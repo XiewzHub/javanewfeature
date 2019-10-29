@@ -1,19 +1,25 @@
 package com.example.demo1.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
  * @author Xiewz
  */
 @Data
+@AllArgsConstructor
 public class Employee {
     private Integer age;
     private String status;
     private String name;
     private Double salary;
 
-    public static String getStr(){
-        return "123";
+    public static String getStr(Employee emp){
+        String res = "";
+        String name = emp.getName();
+        res = name + ":" + emp.getSalary();
+        System.out.println(res);
+        return res;
     }
 
     public Employee() {
@@ -21,13 +27,6 @@ public class Employee {
 
     public Employee(Integer age) {
         this.age = age;
-    }
-
-    public Employee(String name,Integer age,  Double salary,String status) {
-        this.age = age;
-        this.status = status;
-        this.name = name;
-        this.salary = salary;
     }
 
     public interface Status {
